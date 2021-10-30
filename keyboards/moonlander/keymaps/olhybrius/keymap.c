@@ -53,6 +53,7 @@ enum custom_keycodes {
   FR_LSPO,
   FR_RSPC,
   QMKBEST,
+  DOUBLE_SHIFT,
 };
 
 
@@ -77,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_moonlander(
       TOGGLE_LAYER_COLOR,FR_1,           FR_2,           FR_3,           FR_4,           FR_5,           KC_TRANSPARENT,                                 KC_TRANSPARENT, FR_6,           FR_7,           FR_8,           FR_9,           FR_0,           KC_TRANSPARENT, 
       KC_TRANSPARENT, TD(DANCE_0),    FR_Z,           TD(DANCE_1),    KC_R,           KC_T,           KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_Y,           TD(DANCE_4),    KC_I,           KC_O,           KC_P,           KC_TRANSPARENT, 
-      KC_LSHIFT,      LCTL_T(FR_Q),   LALT_T(KC_S),   LSFT_T(KC_D),   LGUI_T(KC_F),   TD(DANCE_2),    KC_TRANSPARENT,                                                                 KC_TRANSPARENT, LT(6,KC_H),     RGUI_T(KC_J),   RSFT_T(KC_K),   RALT_T(KC_L),   RCTL_T(FR_M),   TG(7),          
+      DOUBLE_SHIFT,      LCTL_T(FR_Q),   LALT_T(KC_S),   LSFT_T(KC_D),   LGUI_T(KC_F),   TD(DANCE_2),    KC_TRANSPARENT,                                                                 KC_TRANSPARENT, LT(6,KC_H),     RGUI_T(KC_J),   RSFT_T(KC_K),   RALT_T(KC_L),   RCTL_T(FR_M),   TG(7),          
       KC_TRANSPARENT, FR_W,           KC_X,           TD(DANCE_3),    KC_V,           KC_B,                                           KC_N,           TD(DANCE_5),    TD(DANCE_6),    TD(DANCE_7),    TD(DANCE_8),    KC_DELETE,      
       KC_TRANSPARENT, WEBUSB_PAIR,    KC_TRANSPARENT, KC_TRANSPARENT, OSL(8),         OSL(5),                                                                                                         C_S_T(KC_TAB),  KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
       KC_BSPACE,      KC_SPACE,       MO(3),                          TT(4),          KC_ESCAPE,      LSFT_T(KC_ENTER)
@@ -225,6 +226,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         // when keycode QMKBEST is pressed
         SEND_STRING("QMK is the best thing ever!");
+      }
+      return false;
+    case DOUBLE_SHIFT:
+      if (record->event.pressed) {
+        SEND_STRING(SS_TAP(X_LSHIFT)SS_TAP(X_LSHIFT));
       }
       return false;
   }
