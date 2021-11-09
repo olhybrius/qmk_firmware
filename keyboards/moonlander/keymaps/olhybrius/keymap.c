@@ -248,6 +248,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (layer_state_is(7) && IS_RELEASED(record->event) && keycode != TG(7)){
+      layer_off(7);
+  }
+}
+
 typedef struct {
   bool is_press_action;
   uint8_t step;
