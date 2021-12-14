@@ -74,12 +74,13 @@ enum tap_dance_codes {
   DANCE_11,
   DANCE_12,
   DANCE_13,
+  DANCE_14,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_moonlander(
       TOGGLE_LAYER_COLOR,FR_1,           FR_2,           FR_3,           FR_4,           FR_5,           KC_TRANSPARENT,                                 KC_TRANSPARENT, FR_6,           FR_7,           FR_8,           FR_9,           FR_0,           KC_TRANSPARENT, 
-      KC_TRANSPARENT, TD(DANCE_0),    FR_Z,           TD(DANCE_1),    KC_R,           KC_T,           KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_Y,           TD(DANCE_4),    KC_I,           KC_O,           KC_P,           KC_TRANSPARENT, 
+      KC_TRANSPARENT, TD(DANCE_0),    FR_Z,           TD(DANCE_1),    KC_R,           KC_T,           KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_Y,           TD(DANCE_4),    TD(DANCE_14),           KC_O,           KC_P,           KC_TRANSPARENT, 
       DOUBLE_SHIFT,      LCTL_T(FR_Q),   LALT_T(KC_S),   LSFT_T(KC_D),   LGUI_T(KC_F),   TD(DANCE_2),    KC_TRANSPARENT,                                                                 KC_TRANSPARENT, LT(6,KC_H),     RGUI_T(KC_J),   RSFT_T(KC_K),   RALT_T(KC_L),   RCTL_T(FR_M),   TG(7),          
       KC_TRANSPARENT, FR_W,           KC_X,           TD(DANCE_3),    KC_V,           KC_B,                                           KC_N,           TD(DANCE_5),    TD(DANCE_6),    TD(DANCE_7),    TD(DANCE_8),    KC_DELETE,      
       KC_TRANSPARENT, WEBUSB_PAIR,    KC_TRANSPARENT, KC_TRANSPARENT, OSL(8),         OSL(5),                                                                                                         C_S_T(KC_TAB),  KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
@@ -268,7 +269,7 @@ enum {
   MORE_TAPS
 };
 
-static tap dance_state[14];
+static tap dance_state[15];
 
 uint8_t dance_step(qk_tap_dance_state_t *state);
 
@@ -780,6 +781,39 @@ void dance_13_reset(qk_tap_dance_state_t *state, void *user_data) {
   dance_state[13].step = 0;
 }
 
+void on_dance_14(qk_tap_dance_state_t *state, void *user_data);
+void dance_14_finished(qk_tap_dance_state_t *state, void *user_data);
+void dance_14_reset(qk_tap_dance_state_t *state, void *user_data);
+
+void on_dance_14(qk_tap_dance_state_t *state, void *user_data) {
+  if(state->count >= 3) {
+    tap_code16(KC_I);
+    tap_code16(KC_I);
+    tap_code16(KC_I);
+  }
+}
+
+void dance_14_finished(qk_tap_dance_state_t *state, void *user_data) {
+  dance_state[14].step = dance_step(state);
+  switch (dance_state[14].step) {
+    case SINGLE_TAP: register_code16(KC_I); break;
+    case SINGLE_HOLD: register_code16(KC_INSERT); break;
+    case DOUBLE_TAP: register_code16(KC_I); register_code16(KC_I); break;
+    case DOUBLE_SINGLE_TAP: tap_code16(KC_I); register_code16(KC_I);
+  }
+}
+
+void dance_14_reset(qk_tap_dance_state_t *state, void *user_data) {
+  wait_ms(10);
+  switch (dance_state[14].step) {
+    case SINGLE_TAP: unregister_code16(KC_I); break;
+    case SINGLE_HOLD: unregister_code16(KC_INSERT); break;
+    case DOUBLE_TAP: unregister_code16(KC_I); break;
+    case DOUBLE_SINGLE_TAP: unregister_code16(KC_I); break;
+  }
+  dance_state[14].step = 0;
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
   [DANCE_0] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_0, dance_0_finished, dance_0_reset),
   [DANCE_1] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_1, dance_1_finished, dance_1_reset),
@@ -795,5 +829,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [DANCE_11] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_11, dance_11_finished, dance_11_reset),
   [DANCE_12] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_12, dance_12_finished, dance_12_reset),
   [DANCE_13] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_13, dance_13_finished, dance_13_reset),
+  [DANCE_14] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_14, dance_14_finished, dance_14_reset),
 };
 
