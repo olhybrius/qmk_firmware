@@ -113,10 +113,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       ),
   [4] = LAYOUT_moonlander(
       KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-      KC_TRANSPARENT, FR_HASH,        FR_COLN,        FR_DOT,         FR_DQUO,        KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_KP_7,        KC_KP_8,        KC_KP_9,        KC_TRANSPARENT, KC_TRANSPARENT, 
-      KC_TRANSPARENT, LCTL_T(KC_KP_SLASH),LALT_T(FR_ASTR),LSFT_T(KC_KP_MINUS),LGUI_T(KC_KP_PLUS),KC_TRANSPARENT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, FR_EQL,         KC_KP_4,        KC_KP_5,        KC_KP_6,        KC_TRANSPARENT, KC_TRANSPARENT, 
-      KC_TRANSPARENT, FR_PERC,        FR_SUP2,        FR_UNDS,        FR_CIRC,        KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_KP_1,        KC_KP_2,        KC_KP_3,        KC_TRANSPARENT, KC_TRANSPARENT, 
-      KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, KC_KP_0,        KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+      KC_TRANSPARENT, FR_HASH,        FR_COLN,        FR_DOT,         FR_DQUO,        KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, LSFT(KC_7),        LSFT(KC_8),        LSFT(KC_9),        KC_TRANSPARENT, KC_TRANSPARENT, 
+      KC_TRANSPARENT, LCTL_T(KC_KP_SLASH),LALT_T(FR_ASTR),LSFT_T(KC_KP_MINUS),LGUI_T(KC_KP_PLUS),KC_TRANSPARENT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, FR_EQL,         LSFT(KC_4),        LSFT(KC_5),        LSFT(KC_6),        KC_TRANSPARENT, KC_TRANSPARENT, 
+      KC_TRANSPARENT, FR_PERC,        FR_SUP2,        FR_UNDS,        FR_CIRC,        KC_TRANSPARENT,                                 KC_TRANSPARENT, LSFT(KC_1),        LSFT(KC_2),        LSFT(KC_3),        KC_TRANSPARENT, KC_TRANSPARENT, 
+      KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, LSFT(KC_0),        KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
       KC_TRANSPARENT, KC_TRANSPARENT, TO(3),                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
       ),
   [5] = LAYOUT_moonlander(
@@ -256,7 +256,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (layer_state_is(7) && IS_RELEASED(record->event) && keycode != TG(7)){
-      layer_off(7);
+    layer_off(7);
   }
 }
 
